@@ -6,7 +6,7 @@ require_once './app/controllers/prints-api.controller.php';
 $router = new Router();
 
 // defina la tabla de ruteo
-$router->addRoute('prints', 'GET', 'PrintApiController', 'getPrint');
+$router->addRoute('prints', 'GET', 'PrintApiController', 'getPrints');
 $router->addRoute('prints/:ID', 'GET', 'PrintApiController', 'getPrint');
 $router->addRoute('prints/:ID', 'DELETE', 'PrintApiController', 'deletePrint');
 $router->addRoute('prints', 'POST', 'PrintApiController', 'insertPrint'); 

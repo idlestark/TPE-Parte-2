@@ -2,31 +2,55 @@
 
 class PrintsModel {
 
-    private $db;
 
-    public function __construct() {
-        $this->db = new PDO('mysql:host=localhost;'.'dbname=db_tpe;charset=utf8', 'root', '');
+    function conectarDB(){
+        $db = new PDO('mysql:host=localhost;'.'dbname=db_tpe;charset=utf8', 'root', '');
+        return $db;
     }
 
-    /**
-     * Devuelve la lista de tareas completa.
-     */
-    public function getAll() {
-        // 1. abro conexión a la DB
-        // ya esta abierta por el constructor de la clase
+   
+    function getAll($sort = 'precio', $order = 'ASC'){ 
+        $db = $this->conectarDB();
+         $query_sort = "SELECT * FROM objeto
+            ORDER BY ";
+            $columns = array('nombre' => 'nombre ',
+                              'descripcion' => 'descripcion ',
+                              'tipo_id_fk' => 'tipo_id_fk ',
+                              'dimensiones' => 'dimensiones ',
+                              'precio' => 'precio '
+                            );
+    
+            if (isset($columns[$sort])){
+                $query_sort .= $columns[$sort];
+            } else {
+                return null;
+            }
+    
+            if(strtoupper($order) == 'ASC' || strtoupper($order) == 'DESC'){
+                $query_sort .= $order;
+            } else {
+                return null;
+            }
+    
+            $query = $db->prepare($query_sort);
+            $query->execute();
+            $prints = $query->fetchAll(PDO::FETCH_OBJ);
+            return $prints;
+    
+        }
 
-        // 2. ejecuto la sentencia (2 subpasos)
-        $query = $this->db->prepare("SELECT * FROM objeto");
+
+        /*$query = $this->db->prepare("SELECT * FROM objeto");
         $query->execute();
 
-        // 3. obtengo los resultados
-        $print = $query->fetchAll(PDO::FETCH_OBJ); // devuelve un arreglo de objetos
+        $print = $query->fetchAll(PDO::FETCH_OBJ); 
         
-        return $print;
-    }
+        return $print;*/
+    
 
     public function get($id) {
-        $query = $this->db->prepare("SELECT * FROM objeto WHERE id = ?");
+        $db = $this->conectarDB();
+        $query = $db->prepare("SELECT * FROM objeto WHERE id = ?");
         $query->execute([$id]);
         $print = $query->fetch(PDO::FETCH_OBJ);
         
@@ -34,22 +58,26 @@ class PrintsModel {
     }
 
     /**
-     * Inserta una tarea en la base de datos.
+     * Inserta una impresion en la base de datos.
      */
-    public function insert($name, $description, $selectImp, $dimensions, $price) {
-        $query = $this->db->prepare("INSERT INTO objeto(nombre, descripcion, tipo_id_fk, dimensiones, precio) VALUES (?,?,?,?,?)");
-        $query->execute([$name, $description, $selectImp, $dimensions, $price]);
+    public function insert($name, $descripcion, $tipo_id_fk, $dimensiones, $precio) {
+        $db = $this->conectarDB();
+        $query = $db->prepare("INSERT INTO objeto(nombre, descripcion, tipo_id_fk, dimensiones, precio) VALUES (?,?,?,?,?)");
+        $query->execute([$name, $descripcion, $tipo_id_fk, $dimensiones, $precio]);
 
-        return $this->db->lastInsertId();
+        return $db->lastInsertId();
     }
 
 
     /**
-     * Elimina una tarea dado su id.
+     * Elimina una impresion dado su id.
      */
     function delete($id) {
-        $query = $this->db->prepare('DELETE FROM objeto WHERE id = ?');
+        $db = $this->conectarDB();
+        $query = $db->prepare('DELETE FROM objeto WHERE id = ?');
         $query->execute([$id]);
     }
+
+    
 
 }
