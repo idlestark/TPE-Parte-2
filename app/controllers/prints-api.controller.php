@@ -34,11 +34,9 @@ class PrintApiController {
     }
 
     public function getPrint($params = null) {
-        // obtengo el id del arreglo de params
         $id = $params[':ID'];
         $print = $this->model->get($id);
 
-        // si no existe devuelvo 404
         if ($print)
             $this->view->response($print);
         else 

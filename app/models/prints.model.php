@@ -40,13 +40,6 @@ class PrintsModel {
         }
 
 
-        /*$query = $this->db->prepare("SELECT * FROM objeto");
-        $query->execute();
-
-        $print = $query->fetchAll(PDO::FETCH_OBJ); 
-        
-        return $print;*/
-    
 
     public function get($id) {
         $db = $this->conectarDB();
