@@ -20,18 +20,6 @@ class PrintApiController {
     }
 
     public function getPrints($params = null) {
-       /* if(isset($_GET['sort']) && isset($_GET['order'])){
-            $print = $this->model->getAll($_GET['sort'], $_GET['order']);
-
-        } else if(isset($_GET['sort'])){
-            $print = $this->model->getAll($_GET['sort']);
-
-        } else {
-            $print = $this->model->getAll();
-        }
-        $this->view->response($print);*/
- 
-
         $columns = array(  'id' => 'id',
                             'nombre' => 'nombre',
                             'descripcion' => 'descripcion',

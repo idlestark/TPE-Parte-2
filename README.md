@@ -6,6 +6,8 @@ Ordenar por precio ascendiente: http://localhost/WEB2/TPE%20Parte%202/api/prints
 
 Ordenar por precio descendiente: http://localhost/WEB2/TPE%20Parte%202/api/prints?sort=precio&order=DESC
 
+Para borrar un objeto: http://localhost/WEB2/TPE%20Parte%202/api/prints/[ID] 
+
 Para agregar un objeto a imprimir: http://localhost/WEB2/TPE%20Parte%202/api/prints/
  y el siguiente código
 {

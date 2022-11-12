@@ -33,32 +33,6 @@ class PrintsModel {
         $query->execute();
         $prints = $query->fetchAll(PDO::FETCH_OBJ);
         return $prints;
-
-        /* $query_sort = "SELECT * FROM objeto
-            ORDER BY ";
-            $columns = array('nombre' => 'nombre ',
-                              'descripcion' => 'descripcion ',
-                              'tipo_id_fk' => 'tipo_id_fk ',
-                              'dimensiones' => 'dimensiones ',
-                              'precio' => 'precio '
-                            );
-    
-            if (isset($columns[$sort])){
-                $query_sort .= $columns[$sort];
-            } else {
-                return null;
-            }
-    
-            if(strtoupper($order) == 'ASC' || strtoupper($order) == 'DESC'){
-                $query_sort .= $order;
-            } else {
-                return null;
-            }
-    
-            $query = $db->prepare($query_sort);
-            $query->execute();
-            $prints = $query->fetchAll(PDO::FETCH_OBJ);
-            return $prints;*/
     
         }
 
