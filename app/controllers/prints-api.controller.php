@@ -11,8 +11,7 @@ class PrintApiController {
     public function __construct() {
         $this->model = new PrintsModel();
         $this->view = new ApiView();
-        
-        // lee el body del request
+
         $this->data = file_get_contents("php://input");
     }
 
@@ -21,7 +20,7 @@ class PrintApiController {
     }
 
     public function getPrints($params = null) {
-        if(isset($_GET['sort']) && isset($_GET['order'])){
+       /* if(isset($_GET['sort']) && isset($_GET['order'])){
             $print = $this->model->getAll($_GET['sort'], $_GET['order']);
 
         } else if(isset($_GET['sort'])){
@@ -30,7 +29,41 @@ class PrintApiController {
         } else {
             $print = $this->model->getAll();
         }
-        $this->view->response($print);
+        $this->view->response($print);*/
+ 
+
+        $columns = array(  'id' => 'id',
+                            'nombre' => 'nombre',
+                            'descripcion' => 'descripcion',
+                            'tipo_id_fk' => 'tipo_id_fk',
+                            'dimensiones' => 'dimensiones',
+                            'precio' => 'precio'
+                        );
+
+
+        $select = $_GET["select"] ?? "*";
+        $sort = $_GET["sort"] ?? null;
+        $order = $_GET["order"] ?? null; 
+        $begin= $_GET["begin"] ?? null;
+        $end = $_GET["end"] ?? null;
+
+        $prints = $this->model->getAll($select, $sort, $order, $begin, $end);
+
+             //Select de cualquier columna               
+             if(in_array($select, $columns) || $select == "*"){
+                $prints = $this->model->getAll($select);
+            } //Datos ordenados de cualquier columna
+                else if (in_array($select, $columns) || $select == "*" && isset($sort) && isset($order) && strtoupper($order) == "ASC" || strtoupper($order) == "DESC"){
+                $prints = $this->model->getAll($select, $sort, $order);
+            } //Datos paginados ordenados de cualquier columna
+                else if ($sort && $begin >= "0" && $begin <= "9" && $end >= "0" && $end <= "9") {
+                 $prints = $this->model->getAll($select, $sort, $order, $begin, $end);
+            } 
+    
+      
+            $prints = $this->model->getAll($select, $sort, $order, $begin, $end);
+    
+            $this->view->response($prints);
     }
 
     public function getPrint($params = null) {

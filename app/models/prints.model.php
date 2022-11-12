@@ -3,15 +3,38 @@
 class PrintsModel {
 
 
-    function conectarDB(){
+    function connectDB(){
         $db = new PDO('mysql:host=localhost;'.'dbname=db_tpe;charset=utf8', 'root', '');
         return $db;
     }
 
    
-    function getAll($sort = 'precio', $order = 'ASC'){ 
-        $db = $this->conectarDB();
-         $query_sort = "SELECT * FROM objeto
+    function getAll($select, $sort = null, $order = null, $begin = null, $end = null){ 
+        $db = $this->connectDB();
+
+        $query = "SELECT $select FROM objeto";
+
+        //Traer datos ordenados
+        if(isset($select) && $sort != null && $order != null){
+            $query = "SELECT $select FROM objeto ORDER BY $sort $order";
+        }
+
+        //Traer datos paginados sin ordenar
+        if(isset($select) && $begin != null && $end != null){
+            $query = "SELECT $select FROM objeto LIMIT $begin, $end";
+        }
+
+        //datos paginados ordenados
+        if($select != null && $sort != null && $order != null && $begin != null && $end != null ){
+            $query = "SELECT $select FROM objeto ORDER BY $sort $order LIMIT $begin, $end";
+        }
+
+        $query = $db->prepare($query);
+        $query->execute();
+        $prints = $query->fetchAll(PDO::FETCH_OBJ);
+        return $prints;
+
+        /* $query_sort = "SELECT * FROM objeto
             ORDER BY ";
             $columns = array('nombre' => 'nombre ',
                               'descripcion' => 'descripcion ',
@@ -35,14 +58,14 @@ class PrintsModel {
             $query = $db->prepare($query_sort);
             $query->execute();
             $prints = $query->fetchAll(PDO::FETCH_OBJ);
-            return $prints;
+            return $prints;*/
     
         }
 
 
 
     public function get($id) {
-        $db = $this->conectarDB();
+        $db = $this->connectDB();
         $query = $db->prepare("SELECT * FROM objeto WHERE id = ?");
         $query->execute([$id]);
         $print = $query->fetch(PDO::FETCH_OBJ);
@@ -54,7 +77,7 @@ class PrintsModel {
      * Inserta una impresion en la base de datos.
      */
     public function insert($name, $descripcion, $tipo_id_fk, $dimensiones, $precio) {
-        $db = $this->conectarDB();
+        $db = $this->connectDB();
         $query = $db->prepare("INSERT INTO objeto(nombre, descripcion, tipo_id_fk, dimensiones, precio) VALUES (?,?,?,?,?)");
         $query->execute([$name, $descripcion, $tipo_id_fk, $dimensiones, $precio]);
 
@@ -66,7 +89,7 @@ class PrintsModel {
      * Elimina una impresion dado su id.
      */
     function delete($id) {
-        $db = $this->conectarDB();
+        $db = $this->connectDB();
         $query = $db->prepare('DELETE FROM objeto WHERE id = ?');
         $query->execute([$id]);
     }
