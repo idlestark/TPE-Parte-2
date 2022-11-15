@@ -9,10 +9,37 @@ class PrintsModel {
     }
 
    
-    function getAll($select, $sort = null, $order = null, $begin = null, $end = null){ 
+    function getAll($select, $sort = null, $order = null, $begin = null, $end = null,$value = null){ 
         $db = $this->connectDB();
 
         $query = "SELECT $select FROM objeto";
+    
+        if (isset($select) && $value != null){
+           $query = "SELECT objeto.* FROM objeto WHERE  $select='$value'";
+            }
+    
+        if(isset($select) && $sort != null && $order != null){
+            $query = "SELECT $select FROM objeto ORDER BY $sort $order";
+            }
+    
+        if(isset($select) && $begin != null && $end != null){
+            $query = "SELECT $select FROM objeto LIMIT $begin, $end";
+            }
+    
+        if($select != null && $sort != null && $order != null && $begin != null && $end != null ){
+            $query = "SELECT $select FROM objeto ORDER BY $sort $order LIMIT $begin, $end";
+            }
+    
+            $query = $db->prepare($query);
+            $query->execute();
+            $prints = $query->fetchAll(PDO::FETCH_OBJ);
+            return $prints;
+
+
+
+
+
+        /*$query = "SELECT $select FROM objeto";
 
         //Traer datos ordenados
         if(isset($select) && $sort != null && $order != null){
@@ -32,7 +59,7 @@ class PrintsModel {
         $query = $db->prepare($query);
         $query->execute();
         $prints = $query->fetchAll(PDO::FETCH_OBJ);
-        return $prints;
+        return $prints;*/
     
         }
 
