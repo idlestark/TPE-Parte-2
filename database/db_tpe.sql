@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2022 a las 16:26:54
+-- Tiempo de generación: 15-11-2022 a las 03:09:02
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -33,7 +33,7 @@ CREATE TABLE `objeto` (
   `descripcion` varchar(255) NOT NULL,
   `tipo_id_fk` int(11) NOT NULL,
   `dimensiones` varchar(45) NOT NULL,
-  `precio` varchar(45) NOT NULL
+  `precio` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -41,12 +41,13 @@ CREATE TABLE `objeto` (
 --
 
 INSERT INTO `objeto` (`id`, `nombre`, `descripcion`, `tipo_id_fk`, `dimensiones`, `precio`) VALUES
-(1, 'Perro low-poly', 'Un perro estilo low-poly', 1, '100x90x38', '600$'),
-(2, 'Lámpara Voronoi', 'Una lámpara con el clásico estilo Voronoi.', 3, '250x100x80', '1800$'),
-(13, 'Aplique moderno', 'Un moderno aplique para pared.', 2, '150x200x180', '5400$'),
-(28, 'Maceta Estilo Japonés', 'Una maceta pequeña con una estética japonesa.', 1, '90x80x250', '900$'),
-(29, 'Estatua Boba Fett', 'Una estatua del mítico cazarrecompensas Boba Fett del universo de Star Wars.', 1, '90x180x250', '3000$'),
-(30, 'Repuesto patas de microondas', 'Unas patas de microondas de repuesto.', 46, '40x80x40', '500$');
+(1, 'Perro low-poly', 'Un perro estilo low-poly', 1, '100x90x38', 600),
+(2, 'Lámpara Voronoi', 'Una lámpara con el clásico estilo Voronoi.', 3, '250x100x80', 1800),
+(13, 'Aplique moderno', 'Un moderno aplique para pared.', 2, '150x200x180', 5400),
+(28, 'Maceta Estilo Japonés', 'Una maceta pequeña con una estética japonesa.', 1, '90x80x250', 900),
+(29, 'Estatua Boba Fett', 'Una estatua del mítico cazarrecompensas Boba Fett del universo de Star Wars.', 1, '90x180x250', 3000),
+(30, 'Repuesto patas de microondas', 'Unas patas de microondas de repuesto.', 46, '40x80x40', 500),
+(65, 'Posavasos de Red Bull Racing', 'Un posavasos con el escudo de Red Bull Racing ', 47, '90x250x500', 2);
 
 -- --------------------------------------------------------
 
@@ -68,7 +69,8 @@ INSERT INTO `tipo` (`id`, `nombre_tipo`, `descripcion`) VALUES
 (1, 'Decoración', 'Son impresiones enfocadas a lo ornamental, lo cual es ideal para un regalo, o para poder armar una estética particular en, por ejemplo, una estantería.'),
 (2, 'Apliques', 'Los apliques son lámparas que se fijan a una pared para darle un toque más novedoso a su hogar.'),
 (3, 'Lámparas', 'Las lámparas de noche son una de nuestras especialidades, podrá elegir entre nuestros numerosos modelos.'),
-(46, 'Repuestos', 'Todo tipo de repuestos, para que las reparaciones sean mucho más económicas y duraderas.');
+(46, 'Repuestos', 'Todo tipo de repuestos, para que las reparaciones sean mucho más económicas y duraderas.'),
+(47, 'Posavasos', 'Variados posavasos para decorar tu hogar.');
 
 -- --------------------------------------------------------
 
@@ -120,13 +122,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `objeto`
 --
 ALTER TABLE `objeto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo`
 --
 ALTER TABLE `tipo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
