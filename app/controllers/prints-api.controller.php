@@ -20,6 +20,8 @@ class PrintApiController {
     }
 
     public function getPrints($params = null) {
+
+        
         $columns = array(  'id' => 'id',
                             'nombre' => 'nombre',
                             'descripcion' => 'descripcion',
@@ -41,9 +43,12 @@ class PrintApiController {
              if(in_array($select, $columns) || $select == "*"){
                 $prints = $this->model->getAll($select);
             } //Datos ordenados de cualquier columna
+
                 else if (in_array($select, $columns) || $select == "*" && isset($sort) && isset($order) && strtoupper($order) == "ASC" || strtoupper($order) == "DESC"){
                 $prints = $this->model->getAll($select, $sort, $order);
-            } //Datos paginados ordenados de cualquier columna
+            }  
+            //Datos paginados ordenados de cualquier columna
+
                 else if ($sort && $begin >= "0" && $begin <= "9" && $end >= "0" && $end <= "9") {
                  $prints = $this->model->getAll($select, $sort, $order, $begin, $end);
             } 
