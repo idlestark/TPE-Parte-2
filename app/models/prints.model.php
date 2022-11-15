@@ -47,9 +47,7 @@ class PrintsModel {
         return $print;
     }
 
-    /**
-     * Inserta una impresion en la base de datos.
-     */
+
     public function insert($name, $descripcion, $tipo_id_fk, $dimensiones, $precio) {
         $db = $this->connectDB();
         $query = $db->prepare("INSERT INTO objeto(nombre, descripcion, tipo_id_fk, dimensiones, precio) VALUES (?,?,?,?,?)");
@@ -59,9 +57,7 @@ class PrintsModel {
     }
 
 
-    /**
-     * Elimina una impresion dado su id.
-     */
+  
     function delete($id) {
         $db = $this->connectDB();
         $query = $db->prepare('DELETE FROM objeto WHERE id = ?');
